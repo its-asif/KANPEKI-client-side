@@ -16,16 +16,19 @@ const TopAnime = () => {
         const result = await axios.get(url + "airing"); 
         setTopAir(result.data.data);
         console.log(result.data.data)
+        getUpcoming();
     } 
 
     const getUpcoming = async () => {
         const result = await axios.get(url + "upcoming");
         setUpcoming(result.data.data);
+        getFavourite();
     }
 
     const getByPopularity = async () => {
         const result = await axios.get(url + "bypopularity");
         setBypopularity(result.data.data);
+        getAir();
     }
 
     const getFavourite = async () => {
@@ -34,10 +37,10 @@ const TopAnime = () => {
     }
 
     useEffect(() => {
-        getAir();
-        getUpcoming();
         getByPopularity();
-        getFavourite();
+        // getAir();
+        // getUpcoming();
+        // getFavourite();
 
     }, []);
     return (

@@ -1,10 +1,10 @@
-import TopAnime from "../GeneralAnimeSection/TopAnime";
+import Search from "./search/Search";
 
 
 const Home = () => {
     return (
         <div>
-            <TopAnime />
+            <Search />
         </div>
     );
 };

@@ -8,8 +8,6 @@ import router from './router/Router.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <React.StrictMode>
       <RouterProvider router={router} />
-    </React.StrictMode>
-  </React.StrictMode>,
+  </React.StrictMode>
 )

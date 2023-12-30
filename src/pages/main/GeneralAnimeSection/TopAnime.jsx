@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 
 const TopAnime = () => {
@@ -9,33 +9,60 @@ const TopAnime = () => {
     const [ upcoming, setUpcoming ] = useState([]);
     const [bypopularity, setBypopularity] = useState([]);
     const [favourite, setFavourite] = useState([]);
+    
+    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     const url = "https://api.jikan.moe/v4/top/anime?filter=";
 
     const getAir = async () => {
-        const result = await axios.get(url + "airing"); 
-        setTopAir(result.data.data);
-        console.log(result.data.data)
-        getUpcoming();
+        try{
+            const result = await axios.get(url + "airing"+ "&limit=16"); 
+            setTopAir(result.data.data);
+            console.log(result.data.data)
+            await delay(1000);
+            getUpcoming();
+        }
+        catch(err){
+            console.log(err);
+        }
     } 
 
     const getUpcoming = async () => {
-        const result = await axios.get(url + "upcoming");
-        setUpcoming(result.data.data);
-        getFavourite();
+        try{
+            const result = await axios.get(url + "upcoming"+ "&limit=16");
+            setUpcoming(result.data.data);
+            await delay(1000);
+            getFavourite();
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 
     const getByPopularity = async () => {
-        const result = await axios.get(url + "bypopularity");
-        setBypopularity(result.data.data);
-        getAir();
+        try{
+            const result = await axios.get(url + "bypopularity"+ "&limit=16");
+            console.log("popular anime => " , result.data.data)
+           setBypopularity(result.data.data);
+           await delay(1000);
+           getAir();
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 
     const getFavourite = async () => {
-        const result = await axios.get(url + "favorite");
-        setFavourite(result.data.data);
+        try{
+            const result = await axios.get(url + "favorite"+ "&limit=16");
+            setFavourite(result.data.data);
+        }
+        catch(err){
+            console.log(err);
+        }
     }
 
+    
     useEffect(() => {
         getByPopularity();
         // getAir();
@@ -43,6 +70,20 @@ const TopAnime = () => {
         // getFavourite();
 
     }, []);
+
+
+    const getlen = (str) => {
+        console.log(str.length);
+        return str.lenth;
+    }
+
+    let len = 0;
+
+    useEffect(() => {
+        len = getlen("hello");
+    }, []);
+
+
     return (
         <div className="mt-10">
 
@@ -54,6 +95,7 @@ const TopAnime = () => {
                 chked === 4 ? "Favourite Anime" : ""
             }</h1>
             <div role="tablist" className="tabs tabs-lifted grid-cols-4">
+
 {/* Top Airing */}
                 <input type="radio" name="my_tabs_2" role="tab" className="tab checked:text-primary" 
                 aria-label="Top Airing" 
@@ -65,7 +107,10 @@ const TopAnime = () => {
                     {
                     topAir?.map((anime) => ( 
                         <div className="card bordered shadow-lg " key={anime.mal_id}>
-                            <figure><img src={anime.images.webp.image_url} className="w-full h-72" alt="Shoes" /></figure>
+                            <figure>
+                            <img src={anime.images.webp.image_url} 
+                            className="w-full h-72" alt="Shoes" 
+                            /></figure>
                             <div className="card-body gap-0 p-4">
                                 <h2 className="card-title">{anime.title_english} </h2>
                                 <p  className="text-sm text-gray-800">
@@ -91,12 +136,12 @@ const TopAnime = () => {
                                 > {anime.status}</span>
 
                                 </div>
-                                <div className="card-actions justify-end">
-                                <Link to={`/animeDeails/${anime.mal_id}`}>
-                                    <button className="btn btn-outline btn-warning">Show Details</button>
-                                </Link>
+                                    <div className="card-actions justify-end">
+                                    <Link to={`/animeDeails/${anime.mal_id}`}>
+                                        <button className="btn btn-outline btn-warning">Show Details</button>
+                                    </Link>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     ))
                     }
@@ -116,7 +161,10 @@ const TopAnime = () => {
                         {
                         upcoming.map((anime) => ( 
                             <div className="card bordered shadow-lg " key={anime.mal_id}>
-                                <figure><img src={anime.images.webp.image_url} className="w-full h-72" alt="Shoes" /></figure>
+                                <figure>
+                                <img src={anime.images.webp.image_url} 
+                                className="w-full h-72" alt="Shoes" 
+                                /></figure>
                                 <div className="card-body gap-0 p-4">
                                     <h2 className="card-title">{anime.title_english} </h2>
                                     <p  className="text-sm text-gray-800">
@@ -143,7 +191,9 @@ const TopAnime = () => {
 
                                     </div>
                                     <div className="card-actions justify-end">
-                                    <button className="btn btn-outline btn-warning">Show Details</button>
+                                    <Link to={`/animeDeails/${anime.mal_id}`}>
+                                        <button className="btn btn-outline btn-warning">Show Details</button>
+                                    </Link>
                                     </div>
                                 </div>
                             </div>
@@ -193,7 +243,9 @@ const TopAnime = () => {
 
                                     </div>
                                     <div className="card-actions justify-end">
-                                    <button className="btn btn-outline btn-warning">Show Details</button>
+                                    <Link to={`/animeDeails/${anime.mal_id}`}>
+                                        <button className="btn btn-outline btn-warning">Show Details</button>
+                                    </Link>
                                     </div>
                                 </div>
                             </div>
@@ -242,7 +294,9 @@ const TopAnime = () => {
 
                                 </div>
                                 <div className="card-actions justify-end">
-                                <button className="btn btn-outline btn-warning">Show Details</button>
+                                <Link to={`/animeDeails/${anime.mal_id}`}>
+                                    <button className="btn btn-outline btn-warning">Show Details</button>
+                                </Link>
                                 </div>
                             </div>
                         </div>

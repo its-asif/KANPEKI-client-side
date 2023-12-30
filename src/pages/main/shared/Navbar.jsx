@@ -1,6 +1,9 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import { AuthContext } from '../../../provider/AuthProvider'
+import { getAuth, signOut } from 'firebase/auth'
+import app from '../../../firebase/firebase.config'
 
 const menuItems = [
   {
@@ -10,14 +13,28 @@ const menuItems = [
   {
     name: 'Top Anime',
     href: '/top-anime',
+  },
+  {
+    name: 'Dashboard',
+    href: '/dashboard',
   }
 ]
 
 const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const {user, setUser} = useContext(AuthContext);
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  // console.log(user);
   
+  const logout = () => {
+    const auth = getAuth(app);
+    signOut(auth)
+    .then(() => {
+      setUser(null);
+      console.log('logout success');
+    })
+  }
     const toggleMenu = () => {
-      setIsMenuOpen(!isMenuOpen)
+      setIsMenuOpen(!isMenuOpen);
     }
   
     return (
@@ -43,21 +60,50 @@ const Navbar = () => {
 
           {/* navbar middle */}
           <div className="hidden lg:block">
-            <ul className="inline-flex space-x-8">
+            <ul className="inline-flex">
               {menuItems.map((item) => (
-                  <Link key={item.name} to={item.href}>{item.name}</Link>
+                  <Link key={item.name} to={item.href} className='btn btn-ghost mx-0'>{item.name}</Link>
               ))}
             </ul>
           </div>
 
           {/* navbar end */}
           <div className="hidden lg:block">
-            <button
-              type="button"
-              className="rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-            >
-              Button text
-            </button>
+
+          {/* profile picture in circle */}
+          { user &&
+            <div className="inline-flex items-center space-x-2 mr-2">   
+              <span className="font-bold">{user?.displayName}</span>
+
+              <span>
+                <img
+                  className="inline-block h-10 w-10 rounded-full ring-2 ring-white"
+                  src={user?.photoURL}
+                  alt=""
+                />
+              </span>
+          </div>
+          }
+
+          {
+            user?
+              <button
+                  type="button"
+                  onClick={logout}
+                  className="rounded-md bg-slate-700 px-4 py-2 font-semibold text-white shadow-sm hover:bg-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                >
+                  Logout
+                </button>
+              :
+              <Link to="/login">
+                <button
+                    type="button"
+                    className="rounded-md bg-slate-700 px-4 py-2 font-semibold text-white shadow-sm hover:bg-slate-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                  >
+                    Login
+                  </button>
+              </Link>
+            }
           </div>
 
           {/* toggle menu bar on phone */}

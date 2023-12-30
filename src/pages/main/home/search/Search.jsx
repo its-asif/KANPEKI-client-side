@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { set, useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 
 const Search = () => {
@@ -80,7 +81,9 @@ const Search = () => {
 
                                 </div>
                                 <div className="card-actions justify-end">
-                                <button className="btn btn-outline btn-warning">Show Details</button>
+                                <Link to={`/animeDeails/${anime.mal_id}`}>
+                                    <button className="btn btn-outline btn-warning">Show Details</button>
+                                </Link>
                                 </div>
                             </div>
                         </div>

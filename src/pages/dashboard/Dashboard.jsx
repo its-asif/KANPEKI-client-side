@@ -18,10 +18,10 @@ const Dashboard = () => {
             </h2>
 
             {/* anime list create section */}
-            <AllLists />
+            <AllLists user={user} />
 
             {/* Table */}
-            <AnimeList />
+            {/* <AnimeList /> */}
         </div>
     );
 };

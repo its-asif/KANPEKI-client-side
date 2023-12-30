@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 
 const AnimeList = () => {
     const [animeList, setAnimeList] = useState([ 52991, 51009 ]);
     const [animeData, setAnimeData] = useState([]);
+    const { id } = useParams();
 
     useEffect(() => {
         setAnimeData([]);
+        console.log(animeList);
         animeList.forEach((animeId) => {
             fetch(`https://api.jikan.moe/v4/anime/${animeId}/full`)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log(data.data);
                     setAnimeData((prev) => [...prev, data.data]);
                 });
         })
@@ -37,6 +38,8 @@ const AnimeList = () => {
         <div>
             {/* add id section */}
             <div className="my-10 text-center">
+                <h1 className="text-2xl font-bold my-4"> List ID : {id}</h1>
+
                 <form className="join" onSubmit={handleAddID}>
                     <div>
                         <div>
@@ -103,8 +106,8 @@ const AnimeList = () => {
                                 <td className="text-center">{anime.type}</td>
                                 <td className="text-center flex flex-wrap gap-x-2 gap-y-2">
                                     {
-                                        anime.genres.map((gen) => (
-                                            console.log(gen),
+                                            anime.genres.map((gen) => (
+                                                // console.log(gen),
                                             <a key={gen.mal_id} className="badge bg-slate-100 text-slate-800"
                                                 href={gen.url}
                                             >{gen.name}</a>

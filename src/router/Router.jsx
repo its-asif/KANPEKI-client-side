@@ -9,6 +9,7 @@ import Login from "../pages/userAuth/Login";
 import Register from "../pages/userAuth/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
 import PrivateRouter from "./PrivateRouter";
+import AnimeList from "../pages/dashboard/animeList/AnimeList";
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: <PrivateRouter><Dashboard/></PrivateRouter>,
+            },
+            {
+                path: 'animelist/:id',
+                element: <PrivateRouter> <AnimeList /> </PrivateRouter>
             }
         ],
     },

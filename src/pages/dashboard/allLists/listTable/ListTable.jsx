@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 const ListTable = ({allList}) => {
@@ -30,7 +31,7 @@ const ListTable = ({allList}) => {
                         <tbody>
                             {
                                 allList.map((list, index) => (
-                                    <tr>
+                                    <tr key={list._id}>
                                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
                                             <p class="text-gray-900 whitespace-no-wrap">
                                                 {index + 1}
@@ -65,7 +66,9 @@ const ListTable = ({allList}) => {
                                             </p>
                                         </td>
                                         <td class="px-5 py-5 text-sm bg-white border-b border-gray-200">
-                                            <button className="btn btn-sm btn-ghost">Details</button>
+                                            <Link to={`/animelist/${list._id}`}>
+                                                <button className="btn btn-sm btn-ghost">Details</button>
+                                            </Link>
                                         </td>
                                     </tr>
                                 

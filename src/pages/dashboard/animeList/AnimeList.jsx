@@ -18,12 +18,39 @@ const AnimeList = () => {
         })
         console.log(animeData);
 
-    }, [animeList]);
+    }, [animeList, setAnimeData]);
 
-
+    
+    const handleAddID = (e) => {
+        e.preventDefault();
+        const animeId = e.target.animeId.value;
+        console.log(animeId);
+        
+        if (animeList.includes(animeId)) {
+            alert("Anime ID already exists");
+        } else {
+            setAnimeList((prev) => [...prev, animeId]);
+        }
+    }
 
     return (
         <div>
+            {/* add id section */}
+            <div className="my-10 text-center">
+                <form className="join" onSubmit={handleAddID}>
+                    <div>
+                        <div>
+                            <input className="input input-bordered join-item" 
+                            name="animeId"
+                            placeholder="Enter Anime ID" />
+                        </div>
+                    </div>
+                    <div className="indicator">
+                        <input className="btn join-item" type="submit" value="Add" />
+                    </div>
+                </form>
+            </div>
+
             <div className="overflow-x-auto mx-10 mt-16">
                 <table className="table ">
                     {/* head */}
@@ -78,7 +105,9 @@ const AnimeList = () => {
                                     {
                                         anime.genres.map((gen) => (
                                             console.log(gen),
-                                            <span key={gen.mal_id} className="badge bg-slate-100 text-slate-800">{gen.name}</span>
+                                            <a key={gen.mal_id} className="badge bg-slate-100 text-slate-800"
+                                                href={gen.url}
+                                            >{gen.name}</a>
                                         ))
                                     }
                                 </td>
@@ -92,6 +121,7 @@ const AnimeList = () => {
                         ))
                     }
                     </tbody>
+                    {/* footer */}
                     
                 </table>
             </div>

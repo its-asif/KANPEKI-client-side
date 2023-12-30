@@ -2,8 +2,8 @@ import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import app from "../../firebase/firebase.config";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
-import { Navigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import axios from "axios";
 
 const Login = () => {
     const {user, setUser} = useContext(AuthContext);
@@ -20,6 +20,13 @@ const Login = () => {
                 const {displayName, photoURL, email} = user;
                 console.log(user);
                 setUser({displayName, photoURL, email});
+
+                axios.post('http://localhost:8000/users', {
+                    displayName, photoURL, email
+                })
+                .then(res => {
+                    console.log(res.data);
+                })
 
                 Swal.fire({
                     icon: 'success',

@@ -5,14 +5,15 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 
 
 const AllLists = ({user}) => {
-    const [isFormOpen, setIsFormOpen] = useState(false)
     const { register, handleSubmit } = useForm();
+    const [isFormOpen, setIsFormOpen] = useState(false)
+    const [toggle, setToogle] = useState(true);
+    const [allList, setAllList] = useState([]);
     const axiosPublic = useAxiosPublic();
     // console.log(user);
-    const [toggle, setToogle] = useState(true);
 
-    const [allList, setAllList] = useState([]);
 
+    // Post New list to Database
      const newListData = async(data) => {
         const newData = {
             // listId : new Date().getTime(),
@@ -40,6 +41,7 @@ const AllLists = ({user}) => {
         }
      }
 
+    // GET animelist from database 
      const getListData = async() =>{
         const result = await axiosPublic.get(`/animelist/${user?.email}`)
         console.log(result.data);
@@ -58,7 +60,7 @@ const AllLists = ({user}) => {
                 <div className={`btn btn-wide font-semibold text-lg ${isFormOpen? "btn-error text-white" : "btn-warning"}`}
                     onClick={() => setIsFormOpen(!isFormOpen)}
                 >
-                    {isFormOpen? 'Close Form' : 'Add more List'}
+                    {isFormOpen? 'Close Form' : 'Add a New List'}
                 </div>
             </div>
 
@@ -90,7 +92,7 @@ const AllLists = ({user}) => {
             </div>
             }
 
-            <ListTable allList={allList} />
+            <ListTable allList={allList} toggle={toggle} setToogle={setToogle} />
         </div>
     );
 };

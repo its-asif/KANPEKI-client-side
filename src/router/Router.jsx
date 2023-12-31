@@ -10,6 +10,7 @@ import Register from "../pages/userAuth/Register";
 import Dashboard from "../pages/dashboard/Dashboard";
 import PrivateRouter from "./PrivateRouter";
 import AnimeList from "../pages/dashboard/animeList/AnimeList";
+import PublicList from "../pages/publicList/PublicList";
 
 const router = createBrowserRouter([
     {
@@ -42,7 +43,11 @@ const router = createBrowserRouter([
             },
             {
                 path: 'animelist/:id',
-                element: <PrivateRouter> <AnimeList /> </PrivateRouter>
+                element: <AnimeList /> ,
+            },
+            {
+                path: '/publicList',
+                element: <PublicList/>,
             }
         ],
     },

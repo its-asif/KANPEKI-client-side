@@ -17,6 +17,10 @@ const menuItems = [
   {
     name: 'Dashboard',
     href: '/dashboard',
+  },
+  {
+    name: 'Public List',
+    href: '/publicList',
   }
 ]
 

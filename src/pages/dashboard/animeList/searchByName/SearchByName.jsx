@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import useAxiosPublic from '../../../../hooks/useAxiosPublic';
 
-const SearchByName = ({animeList, setAnimeList, listId}) => {
+const SearchByName = ({listId, setAnimeData, animeData}) => {
     const { register, handleSubmit } = useForm();
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -29,10 +29,12 @@ const SearchByName = ({animeList, setAnimeList, listId}) => {
     setSearchTerm(e.target.value);
   };
   const [ tempId, setTempId ] = useState('');
+  const [ clickedData, setClickedData ] = useState({});
 
-  const handleAddAnimeId = (id) => {
+  const handleAddAnimeId = (data) => {
     document.getElementById('my_modal_3').showModal();
-    setTempId(id);
+    console.log(data);
+    setClickedData(data);
     // setAnimeList([...animeList, id])
   }
 
@@ -50,13 +52,15 @@ const SearchByName = ({animeList, setAnimeList, listId}) => {
 
                 {/* name of the anime clicked */}
                 <h1 className="text-2xl font-bold">Add to List</h1>
-                <h1 className="text-xl font-bold text-left my-2"><span className='font-normal'>Details for</span> {searchResults.find((anime) => anime.mal_id == tempId)?.title_english}</h1>
+                <h1 className="text-xl font-bold text-left my-2"><span className='font-normal'>Details for</span> {searchResults.find((anime) => anime.mal_id == clickedData.mal_id )?.title_english}</h1>
 
                 {/* take personal rating and status in input and combine it with id and patch in backend */}
                 <form onSubmit={handleSubmit((data) => {
-                    console.log(data);
-                    axiosPublic.patch(`/animelist/${listId}`, { id : tempId, ...data});
-                    setAnimeList([...animeList, tempId]);
+                    // console.log(data);
+                    console.log( {...clickedData, ...data} )
+                    axiosPublic.patch(`/animelist/${listId}`, {...clickedData, ...data});
+                    // setAnimeList([...animeList, tempId]);
+                    setAnimeData([...animeData, {...clickedData, ...data}]);
                     document.getElementById('my_modal_3').close();
                 }
                 )} method="dialog" className="flex flex-col gap-4">
@@ -128,7 +132,7 @@ const SearchByName = ({animeList, setAnimeList, listId}) => {
                             </div>
                             <button
                                 className='btn btn-warning btn-sn'
-                                onClick={() => handleAddAnimeId(result.mal_id)}
+                                onClick={() => handleAddAnimeId(result)}
                             >Add to List</button>
                         </div>
                     </li>

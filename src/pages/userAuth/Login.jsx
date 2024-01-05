@@ -4,9 +4,12 @@ import app from "../../firebase/firebase.config";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
 import Swal from "sweetalert2";
 import axios from "axios";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
     const {user, setUser} = useContext(AuthContext);
+    const axiosPublic = useAxiosPublic();
 
     // Google login
     const auth = getAuth(app);
@@ -21,7 +24,14 @@ const Login = () => {
                 console.log(user);
                 setUser({displayName, photoURL, email});
 
-                axios.post('http://localhost:8000/users', {
+                // axios.post('http://localhost:8000/users', {
+                //     displayName, photoURL, email
+                // })
+                // .then(res => {
+                //     console.log(res.data);
+                // })
+
+                axiosPublic.post('/users', {
                     displayName, photoURL, email
                 })
                 .then(res => {
@@ -36,6 +46,7 @@ const Login = () => {
                     timer: 2000
                   })
                 
+                Navigate('/dashboard');
             }).catch((error) => {
                 console.log(error);
             }

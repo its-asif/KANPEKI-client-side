@@ -113,7 +113,7 @@ const TopAnime = () => {
                             /></figure>
                             <div className="card-body gap-0 p-4">
                                 <h2 className="card-title">{anime.title_english} </h2>
-                                <p  className="text-sm text-gray-800">
+                                <p  className="text-sm ">
                                     {
                                         // show only 100 characters
                                         anime.synopsis?.length > 150 ? anime.synopsis.substring(0, 150) + "..." : anime.synopsis
@@ -121,18 +121,18 @@ const TopAnime = () => {
                                 </p>
 
                                 {/* episodes, duration, score */}
-                                <p className="text-sm text-gray-800 ">Episodes : {anime.episodes} </p>
-                                <p className="text-sm text-gray-800 ">Duration : {anime.duration} </p>
-                                <p className="text-sm text-gray-800 ">Score : {anime.score} </p>
+                                <p className="text-sm  ">Episodes : {anime.episodes} </p>
+                                <p className="text-sm  ">Duration : {anime.duration} </p>
+                                <p className="text-sm  ">Score : {anime.score} </p>
 
                             {/* badges */}
                                 <div className="flex items-center gap-x-2 my-4">
                                 <span
-                                    className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4 rounded-full my-auto"
+                                    className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4 rounded-full my-auto"
                                 > {anime.type}</span>
 
                                 <span
-                                    className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4  rounded-full my-auto"
+                                    className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4  rounded-full my-auto"
                                 > {anime.status}</span>
 
                                 </div>
@@ -167,7 +167,7 @@ const TopAnime = () => {
                                 /></figure>
                                 <div className="card-body gap-0 p-4">
                                     <h2 className="card-title">{anime.title_english} </h2>
-                                    <p  className="text-sm text-gray-800">
+                                    <p  className="text-sm ">
                                         {
                                             // show only 100 characters
                                             anime.synopsis?.length > 150 ? anime.synopsis.substring(0, 150) + "..." : anime.synopsis
@@ -175,18 +175,18 @@ const TopAnime = () => {
                                     </p>
 
                                     {/* episodes, duration, score */}
-                                    <p className="text-sm text-gray-800 ">Episodes : {anime.episodes} </p>
-                                    <p className="text-sm text-gray-800 ">Duration : {anime.duration} </p>
-                                    <p className="text-sm text-gray-800 ">Score : {anime.score} </p>
+                                    <p className="text-sm  ">Episodes : {anime.episodes} </p>
+                                    <p className="text-sm  ">Duration : {anime.duration} </p>
+                                    <p className="text-sm  ">Score : {anime.score} </p>
 
                                 {/* badges */}
                                     <div className="flex items-center gap-x-2 my-4">
                                     <span
-                                        className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4 rounded-full my-auto"
+                                        className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4 rounded-full my-auto"
                                     > {anime.type}</span>
 
                                     <span
-                                        className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4  rounded-full my-auto"
+                                        className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4  rounded-full my-auto"
                                     > {anime.status}</span>
 
                                     </div>
@@ -219,7 +219,7 @@ const TopAnime = () => {
                                 <figure><img src={anime.images.webp.image_url} className="w-full h-72" alt="Shoes" /></figure>
                                 <div className="card-body gap-0 p-4">
                                     <h2 className="card-title">{anime.title_english} </h2>
-                                    <p  className="text-sm text-gray-800">
+                                    <p  className="text-sm ">
                                         {
                                             // show only 100 characters
                                             anime.synopsis?.length > 150 ? anime.synopsis.substring(0, 150) + "..." : anime.synopsis
@@ -227,18 +227,18 @@ const TopAnime = () => {
                                     </p>
 
                                     {/* episodes, duration, score */}
-                                    <p className="text-sm text-gray-800 ">Episodes : {anime.episodes} </p>
-                                    <p className="text-sm text-gray-800 ">Duration : {anime.duration} </p>
-                                    <p className="text-sm text-gray-800 ">Score : {anime.score} </p>
+                                    <p className="text-sm  ">Episodes : {anime.episodes} </p>
+                                    <p className="text-sm  ">Duration : {anime.duration} </p>
+                                    <p className="text-sm  ">Score : {anime.score} </p>
 
                                 {/* badges */}
                                     <div className="flex items-center gap-x-2 my-4">
                                     <span
-                                        className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4 rounded-full my-auto"
+                                        className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4 rounded-full my-auto"
                                     > {anime.type}</span>
 
                                     <span
-                                        className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4  rounded-full my-auto"
+                                        className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4  rounded-full my-auto"
                                     > {anime.status}</span>
 
                                     </div>
@@ -270,7 +270,7 @@ const TopAnime = () => {
                             <figure><img src={anime.images.webp.image_url} className="w-full h-72" alt="Shoes" /></figure>
                             <div className="card-body gap-0 p-4">
                                 <h2 className="card-title">{anime.title_english} </h2>
-                                <p  className="text-sm text-gray-800">
+                                <p  className="text-sm ">
                                     {
                                         // show only 100 characters
                                         anime.synopsis?.length > 150 ? anime.synopsis.substring(0, 150) + "..." : anime.synopsis
@@ -278,18 +278,18 @@ const TopAnime = () => {
                                 </p>
 
                                 {/* episodes, duration, score */}
-                                <p className="text-sm text-gray-800 ">Episodes : {anime.episodes} </p>
-                                <p className="text-sm text-gray-800 ">Duration : {anime.duration} </p>
-                                <p className="text-sm text-gray-800 ">Score : {anime.score} </p>
+                                <p className="text-sm  ">Episodes : {anime.episodes} </p>
+                                <p className="text-sm  ">Duration : {anime.duration} </p>
+                                <p className="text-sm  ">Score : {anime.score} </p>
 
                             {/* badges */}
                                 <div className="flex items-center gap-x-2 my-4">
                                 <span
-                                    className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4 rounded-full my-auto"
+                                    className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4 rounded-full my-auto"
                                 > {anime.type}</span>
 
                                 <span
-                                    className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4  rounded-full my-auto"
+                                    className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4  rounded-full my-auto"
                                 > {anime.status}</span>
 
                                 </div>

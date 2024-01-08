@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../../../provider/AuthProvider'
 import { getAuth, signOut } from 'firebase/auth'
 import app from '../../../firebase/firebase.config'
+import ThemeToggler from './ThemeToggler'
 
 const menuItems = [
   {
@@ -42,7 +43,7 @@ const Navbar = () => {
     }
   
     return (
-      <div className="relative w-full bg-white">
+      <div className="relative w-full ">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-2 sm:px-6 lg:px-8">
           <div className="inline-flex items-center space-x-2">
             <span>
@@ -63,7 +64,7 @@ const Navbar = () => {
 
           {/* navbar end */}
           <div className="hidden lg:block">
-
+          <ThemeToggler />
           {/* profile picture in circle */}
           { user &&
             <div className="inline-flex items-center space-x-2 mr-2">   

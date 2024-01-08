@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import ListTable from "./listTable/ListTable";
 import { useState, useId, useEffect } from "react";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 
 const AllLists = ({user}) => {
@@ -16,7 +17,6 @@ const AllLists = ({user}) => {
     // Post New list to Database
      const newListData = async(data) => {
         const newData = {
-            // listId : new Date().getTime(),
             listName : data.listName,
             createdAt : new Date().toLocaleDateString(),
             statusPublic : false,
@@ -27,20 +27,31 @@ const AllLists = ({user}) => {
             animeList : []
         }
         
-        console.log(newData);
+        
         if (allList.find((list) => list.listName === newData.listName)) {
-            alert("List already exists with this name");
+            // alert("List already exists with this name");
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'List already exists with this name',
+                showConfirmButton: false,
+                timer: 1500
+              })
         } else {
-            // setAllList((prev) => [...prev, newData]);
+            
            await axiosPublic.post('/animelist', newData)
             .then( res => {
                 console.log(res.data)
-                // setAllList((prev) => [...prev, {...newData, id: res.data}]);
+                
+                setIsFormOpen(false);
+                
+                console.log(data.listName)
+
                 setToogle(!toggle);
             })
         }
      }
-
+     
     // GET animelist from database 
      const getListData = async() =>{
         const result = await axiosPublic.get(`/animelist/${user?.email}`)

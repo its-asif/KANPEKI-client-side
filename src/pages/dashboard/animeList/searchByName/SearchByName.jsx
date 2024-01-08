@@ -35,7 +35,6 @@ const SearchByName = ({listId, setAnimeData, animeData}) => {
     document.getElementById('my_modal_3').showModal();
     console.log(data);
     setClickedData(data);
-    // setAnimeList([...animeList, id])
   }
 
   const handleAddWithRating = () => {}

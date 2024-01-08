@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import SearchByName from "./searchByName/SearchByName";
 import { AuthContext } from "../../../provider/AuthProvider";
+import Swal from "sweetalert2";
 
 
 const AnimeList = () => {
@@ -48,11 +49,50 @@ const AnimeList = () => {
         }
     }
 
+    const handleDelete = async (e) =>{
+        
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning', 
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Delete'
+          }).then( async(result) => {
+            if (result.isConfirmed) {
+                // console.log("deleted", e.anime.mal_id, id);
+                const res = await axiosPublic.delete(`anime/${id}/${e.anime.mal_id}`);
+                console.log(res.data);
+                console.log(res.data.modifiedCount);
+                if(res.data.modifiedCount === 1){
+                    
+                    const newAnimeData = animeData.filter((anime) => anime.mal_id != e.anime.mal_id);
+                    setAnimeData(newAnimeData);
+                    
+                    Swal.fire({
+                        title: 'Deleted!',
+                        text: 'Your file has been deleted.',
+                        icon: 'success',
+                        showConfirmButton: false,
+                        timer: 1500
+                      })
+                }
+                else{
+                    Swal.fire(
+                        'Error!',
+                        'Something went wrong.',
+                        'error'
+                      )
+                }
+            }
+          })
+    }
+
     return (
         <div>
             {/* add id section */}
             <div className="my-10 text-center">
-                {/* <h1 className="text-2xl font-bold my-4"> List ID : {id}</h1> */}
 
                 {/* card information */}
                 <div>
@@ -130,19 +170,6 @@ const AnimeList = () => {
                 }
 
 
-                {/* add id */}
-                {/* <form className="join" onSubmit={handleAddID}>
-                    <div>
-                        <div>
-                            <input className="input input-bordered join-item" 
-                            name="animeId"
-                            placeholder="Enter Anime ID" />
-                        </div>
-                    </div>
-                    <div className="indicator">
-                        <input className="btn join-item" type="submit" value="Add" />
-                    </div>
-                </form> */}
             </div>
 
             {/*  Table list */}
@@ -167,13 +194,6 @@ const AnimeList = () => {
                             <tr key={index+1}>
                                 <td  className="text-center">
                                     {anime.status}
-                                    {/* <select className="form-select">
-                                        <option>Completed</option>
-                                        <option>Watching</option>
-                                        <option>Plan to Watch</option>
-                                        <option>On Hold</option>
-                                        <option>Dropped</option>
-                                    </select> */}
                                 </td>
                                 <td>
                                     <div className="flex items-center gap-3">
@@ -190,10 +210,6 @@ const AnimeList = () => {
                                 </td>
                                 <td className="text-center">
                                     {anime.rating}
-                                    {/* <div className="flex items-center gap-1 justify-center">
-                                        <input type="number" className="form-control w-10 border-2 rounded-md border-slate-500 p-1" min="1" max="10" />
-                                        <button className="btn btn-ghost btn-xs">edit</button>
-                                    </div> */}
 
                                 </td>
                                 <td className="text-center">{anime.type}</td>
@@ -212,12 +228,15 @@ const AnimeList = () => {
                                     <Link to={`/animeDeails/${anime.mal_id}`}>
                                         <button className="btn btn-ghost btn-xs">details</button>
                                     </Link>
+
+                                    <button className="btn btn-error btn-xs"
+                                        onClick={ () => handleDelete({anime})}
+                                    >Delete</button>
                                 </td>
                             </tr>
                         ))
                     }
                     </tbody>
-                    {/* footer */}
                     
                 </table>
             </div>

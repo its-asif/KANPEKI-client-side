@@ -50,7 +50,7 @@ const Search = () => {
             </div>
 
             {/* Search Results */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 m-10">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-10 m-10">
                 {
                     searchResults?.map((anime) => ( 
                         <div className="card bordered shadow-lg " key={anime.mal_id}>
@@ -72,11 +72,11 @@ const Search = () => {
                             {/* badges */}
                                 <div className="flex items-center gap-x-2 my-4">
                                 <span
-                                    className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4 rounded-full my-auto"
+                                    className="badge badge-ghost badge-md bg-amber-400 dark:text-black  font-semibold p-4 rounded-full my-auto"
                                 > {anime.type}</span>
 
                                 <span
-                                    className="badge badge-ghost badge-md bg-amber-400 font-semibold p-4  rounded-full my-auto"
+                                    className="badge badge-ghost badge-md bg-amber-400 dark:text-black font-semibold p-4  rounded-full my-auto"
                                 > {anime.status}</span>
 
                                 </div>

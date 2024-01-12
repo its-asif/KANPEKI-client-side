@@ -21,7 +21,7 @@ const PublicList = () => {
         <div className="container max-w-3xl px-4 mx-auto sm:px-8 mt-10">
             <div className="px-4 py-4 -mx-4 overflow-x-auto sm:-mx-8 sm:px-8">
                 <div className="inline-block min-w-full overflow-hidden rounded-lg shadow">
-                    <table className="min-w-full leading-normal">
+                    <table className="min-w-full leading-nor    mal">
                         <thead>
                             <tr>
                                  <th scope="col" className="px-2 md:px-5 py-3 text-sm font-normal text-center text-gray-800 uppercase bg-white border-b border-gray-200">
@@ -72,7 +72,7 @@ const PublicList = () => {
                                         </td>
                                         <td className="px-2 md:px-5 py-5 text-sm bg-white border-b border-gray-200 ">
                                             <div className="flex gap-4 flex-col md:flex-row">
-                                                <Link to={`/animelist/${list._id}`}>
+                                                <Link to={`/publicAnimelist/${list._id}`}>
                                                     <button className="btn btn-sm bg-gray-700 text-white">Details</button>
                                                 </Link>
                                             </div>

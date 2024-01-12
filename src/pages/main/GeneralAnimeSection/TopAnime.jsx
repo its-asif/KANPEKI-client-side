@@ -103,7 +103,7 @@ const TopAnime = () => {
                 onClick={() => setChked(1)} />
 
                 <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-6">
                     {
                     topAir?.map((anime) => ( 
                         <div className="card bordered shadow-lg " key={anime.mal_id}>
@@ -157,7 +157,7 @@ const TopAnime = () => {
                 onClick={() => setChked(2)}/>
 
                 <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-6">
                         {
                         upcoming.map((anime) => ( 
                             <div className="card bordered shadow-lg " key={anime.mal_id}>
@@ -212,7 +212,7 @@ const TopAnime = () => {
                 />
 
                 <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-6">
                         {
                         bypopularity.map((anime) => ( 
                             <div className="card bordered shadow-lg " key={anime.mal_id}>
@@ -263,7 +263,7 @@ const TopAnime = () => {
 
                 <div role="tabpanel" 
                 className="tab-content bg-base-100 border-base-300 rounded-box p-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div className="grid  grid-cols-1 md:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-6">
                     {
                     favourite?.map((anime) => ( 
                         <div className="card bordered shadow-lg " key={anime.mal_id}>

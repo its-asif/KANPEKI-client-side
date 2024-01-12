@@ -4,6 +4,7 @@ import useAxiosPublic from "../../../hooks/useAxiosPublic";
 import SearchByName from "./searchByName/SearchByName";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Swal from "sweetalert2";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 
 const AnimeList = () => {
@@ -11,9 +12,14 @@ const AnimeList = () => {
     const [animeList, setAnimeList] = useState([ ]);
     const [animeData, setAnimeData] = useState([]);
     const [allData, setAllData] = useState({});
+    const [dnded, setDnded] = useState(false);
+    const [sortBy, setSortBy] = useState(null); // 'asc' or 'desc'
+    const [malSortBy, setMalSortBy] = useState(null); // 'asc' or 'desc'
     const axiosPublic = useAxiosPublic();
     const { id } = useParams();
 
+    
+    
     const getList = async() =>{
         const res = await axiosPublic.get(`/animeList/id/${id}`);
         setAllData(res.data[0])
@@ -84,10 +90,53 @@ const AnimeList = () => {
                         'Something went wrong.',
                         'error'
                       )
+                    }
                 }
+            })
+        }
+        
+    
+        // handle on drag end
+        const handleOnDragEnd = ( result ) =>{
+            if(!result.destination) return;
+            // console.log(result)
+            setSortBy(null);
+            setMalSortBy(null);
+            setDnded(true);
+            const tempArray = animeData;
+            const [slice] = tempArray.splice(result.source.index, 1);
+            tempArray.splice(result.destination.index, 0, slice);
+            // console.log(tempArray);
+            setAnimeData(tempArray);
+        }
+
+
+        // update dnd(ed) animeData array in database
+        const handleDndUpdate = async() =>{
+            setDnded(false);
+            // now send updated animeData array to database
+            const res = await axiosPublic.put(`/animeList/${id}`, animeData);
+            console.log(res.data);
+        }
+
+ 
+        const handleSort = (key, type) => {
+            const sortState = type === 'mal' ? [malSortBy, setMalSortBy] : [sortBy, setSortBy];
+        
+            if (sortState[0] === 'asc' || sortState[0] === null) {
+                sortState[1]('desc');
+                setAnimeData((prev) => [...prev].sort((a, b) => b[key] - a[key]));
+            } else {
+                sortState[1]('asc');
+                setAnimeData((prev) => [...prev].sort((a, b) => a[key] - b[key]));
             }
-          })
-    }
+
+            setDnded(true);
+        };
+        
+
+        
+
 
     return (
         <div>
@@ -173,70 +222,118 @@ const AnimeList = () => {
             </div>
 
             {/*  Table list */}
-            <div className="overflow-x-auto mx-10 my-16">
+                {/* Update Btn */}
+            {dnded &&
+                <div className="text-right mx-20 mt-16 mb-6">
+                    <div className="btn btn-warning px-10"
+                        onClick={handleDndUpdate}
+                    > Update</div>
+                </div>
+            }
+
+            {/* Table */}
+            <div className="overflow-x-auto mx-10 mb-16">
                 <table className="table ">
                     {/* head */}
                     <thead>
                     <tr className="text-center">
                         <th>Status</th>
                         <th>Title</th>
-                        <th>Personal Rating</th>
+                        {/* <th>Personal Rating</th> */}
+                        <th onClick={() => handleSort('rating')}>
+                            <span>Personal Rating</span>
+                            {sortBy === 'asc' && <span>▲</span>}
+                            {sortBy === 'desc' && <span>▼</span>}
+                        </th>
                         <th>Type</th>
                         <th>Tags</th>
-                        <th>MAL Score</th>
+                        <th onClick={() => handleSort('score', 'mal')}>
+                            <span>MAL Rating</span>
+                            {malSortBy === 'asc' && <span>▲</span>}
+                            {malSortBy === 'desc' && <span>▼</span>}
+                        </th>
                         <th></th>
                     </tr>
                     </thead>
-                    <tbody>
+                    {/* <tbody> */}
                     {/* data */}
                     {
-                        animeData.map((anime, index) => (
-                            <tr key={index+1}>
-                                <td  className="text-center">
-                                    {anime.status}
-                                </td>
-                                <td>
-                                    <div className="flex items-center gap-3">
-                                        <div className="avatar">
-                                        <div className="mask mask-squircle w-12 h-12">
-                                            <img src={anime.images.webp.image_url} alt="Avatar Tailwind CSS Component" />
-                                        </div>
-                                        </div>
-                                        <div>
-                                        <div className="font-bold">{anime.title_english}</div>
-                                        <div className="text-sm opacity-50">{anime.title}</div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td className="text-center">
-                                    {anime.rating}
-
-                                </td>
-                                <td className="text-center">{anime.type}</td>
-                                <td className="text-center flex flex-wrap gap-x-2 gap-y-2 justify-center">
+                            <DragDropContext onDragEnd={handleOnDragEnd}>
+                                <Droppable droppableId="animeList">
                                     {
-                                            anime.genres.map((gen) => (
-                                                // console.log(gen),
-                                            <a key={gen.mal_id} className="badge bg-slate-100 text-slate-800"
-                                                href={gen.url}
-                                            >{gen.name}</a>
-                                        ))
-                                    }
-                                </td>
-                                <td className="text-center">{anime.score}</td>
-                                <td className="text-center">
-                                    <Link to={`/animeDeails/${anime.mal_id}`}>
-                                        <button className="btn btn-ghost btn-xs">details</button>
-                                    </Link>
+                                        (props) =>
+                                        <tbody
+                                            className="w-full"
+                                            {...props.droppableProps}
+                                            ref = {props.innerRef}
+                                        >
+                                            {
+                                                animeData.map( (anime, index) => 
+                                                <Draggable key={index} draggableId={index.toString()} index={index}>
+                                                    {
+                                                        (props) =>
+                                                        <tr 
+                                                            className="w-full"
+                                                            ref={props.innerRef}
+                                                            {...props.draggableProps}
+                                                            {...props.dragHandleProps}
+                                                        >
+                                                        {/* <tr key={index+1}> */}
+                                                     
+                                                            <td  className="text-center">
+                                                                {anime.status}
+                                                            </td>
+                                                            <td>
+                                                                <div className="flex items-center gap-3">
+                                                                    <div className="avatar">
+                                                                    <div className="mask mask-squircle w-12 h-12">
+                                                                        <img src={anime.images.webp.image_url} alt="Avatar Tailwind CSS Component" />
+                                                                    </div>
+                                                                    </div>
+                                                                    <div>
+                                                                    <div className="font-bold">{anime.title_english}</div>
+                                                                    <div className="text-sm opacity-50">{anime.title}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                            <td className="text-center">
+                                                                {anime.rating}
 
-                                    <button className="btn btn-error btn-xs"
-                                        onClick={ () => handleDelete({anime})}
-                                    >Delete</button>
-                                </td>
-                            </tr>
-                        ))
+                                                            </td>
+                                                            <td className="text-center">{anime.type}</td>
+                                                            <td className="text-center flex flex-wrap gap-x-2 gap-y-2 justify-center">
+                                                                {
+                                                                        anime.genres.map((gen) => (
+                                                                            // console.log(gen),
+                                                                        <a key={gen.mal_id} className="badge bg-slate-100 text-slate-800"
+                                                                            href={gen.url}
+                                                                        >{gen.name}</a>
+                                                                    ))
+                                                                }
+                                                            </td>
+                                                            <td className="text-center">{anime.score}</td>
+                                                            <td className="text-center">
+                                                                <Link to={`/animeDeails/${anime.mal_id}`}>
+                                                                    <button className="btn btn-ghost btn-xs">details</button>
+                                                                </Link>
+
+                                                                <button className="btn btn-error btn-xs"
+                                                                    onClick={ () => handleDelete({anime})}
+                                                                >Delete</button>
+                                                            </td>
+                                                        {/* </tr> */}
+                                                        </tr>
+                                                    }
+                                                </Draggable>
+                                                )
+                                            }
+                                            {props.placeholder}
+                                        </tbody>
+                                    }
+                                </Droppable>
+                            </DragDropContext>
                     }
-                    </tbody>
+                    {/* </tbody> */}
                     
                 </table>
             </div>

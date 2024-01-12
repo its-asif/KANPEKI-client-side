@@ -11,6 +11,7 @@ import Dashboard from "../pages/dashboard/Dashboard";
 import PrivateRouter from "./PrivateRouter";
 import AnimeList from "../pages/dashboard/animeList/AnimeList";
 import PublicList from "../pages/publicList/PublicList";
+import PublicAnimeList from "../pages/publicList/PublicAnimeList";
 
 const router = createBrowserRouter([
     {
@@ -48,7 +49,11 @@ const router = createBrowserRouter([
             {
                 path: '/publicList',
                 element: <PublicList/>,
-            }
+            },
+            {
+                path: 'publicAnimelist/:id',
+                element: <PublicAnimeList /> ,
+            },
         ],
     },
 ]);
